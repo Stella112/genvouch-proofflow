@@ -1,9 +1,11 @@
-import { Wallet, LogOut, Loader2, Shield } from "lucide-react";
+import { Wallet, LogOut, Loader2, Shield, Moon, Sun } from "lucide-react";
 import { useWallet } from "@/contexts/WalletContext";
+import { useTheme } from "@/contexts/ThemeContext";
 import { Button } from "@/components/ui/button";
 
 export function Header() {
   const { address, isConnected, isConnecting, connect, disconnect } = useWallet();
+  const { theme, toggle } = useTheme();
 
   const truncated = address
     ? `${address.slice(0, 6)}...${address.slice(-4)}`
@@ -30,30 +32,36 @@ export function Header() {
           </span>
         </div>
 
-        {/* Wallet */}
-        {isConnected ? (
-          <div className="flex items-center gap-2">
-            <span className="rounded-lg bg-muted px-3 py-1.5 font-mono text-xs text-muted-foreground">
-              {truncated}
-            </span>
-            <Button variant="ghost" size="icon" onClick={disconnect}>
-              <LogOut className="h-4 w-4" />
-            </Button>
-          </div>
-        ) : (
-          <Button
-            onClick={connect}
-            disabled={isConnecting}
-            className="gradient-emerald border-0 text-primary-foreground hover:opacity-90"
-          >
-            {isConnecting ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : (
-              <Wallet className="mr-2 h-4 w-4" />
-            )}
-            Connect Wallet
+        {/* Right side: Theme toggle + Wallet */}
+        <div className="flex items-center gap-2">
+          <Button variant="ghost" size="icon" onClick={toggle} aria-label="Toggle theme">
+            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
-        )}
+
+          {isConnected ? (
+            <div className="flex items-center gap-2">
+              <span className="rounded-lg bg-muted px-3 py-1.5 font-mono text-xs text-muted-foreground">
+                {truncated}
+              </span>
+              <Button variant="ghost" size="icon" onClick={disconnect}>
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </div>
+          ) : (
+            <Button
+              onClick={connect}
+              disabled={isConnecting}
+              className="gradient-emerald border-0 text-primary-foreground hover:opacity-90"
+            >
+              {isConnecting ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <Wallet className="mr-2 h-4 w-4" />
+              )}
+              Connect Wallet
+            </Button>
+          )}
+        </div>
       </div>
     </header>
   );
