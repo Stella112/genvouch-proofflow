@@ -1,16 +1,15 @@
 import { useState } from "react";
-import { Plus, Users, TrendingUp, CircleDot } from "lucide-react";
+import { Plus, Users, TrendingUp, CircleDot, Loader2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogFooter,
-  DialogClose,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,18 +17,24 @@ import type { Circle } from "@/lib/mockData";
 
 interface Props {
   circles: Circle[];
-  onCreateCircle: (name: string) => void;
+  onCreateCircle: (name: string) => Promise<void> | void;
 }
 
 export function CirclesPanel({ circles, onCreateCircle }: Props) {
   const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
+  const [creating, setCreating] = useState(false);
 
-  const handleCreate = () => {
-    if (!name.trim()) return;
-    onCreateCircle(name.trim());
-    setName("");
-    setOpen(false);
+  const handleCreate = async () => {
+    if (!name.trim() || creating) return;
+    setCreating(true);
+    try {
+      await onCreateCircle(name.trim());
+      setName("");
+      setOpen(false);
+    } finally {
+      setCreating(false);
+    }
   };
 
   return (
@@ -42,9 +47,12 @@ export function CirclesPanel({ circles, onCreateCircle }: Props) {
               <Plus className="mr-1 h-4 w-4" /> Create
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-md">
+          <DialogContent className="sm:max-w-md z-[60]">
             <DialogHeader>
               <DialogTitle>Create a Lending Circle</DialogTitle>
+              <DialogDescription>
+                Start a new peer-to-peer lending circle on GenLayer.
+              </DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
@@ -61,14 +69,19 @@ export function CirclesPanel({ circles, onCreateCircle }: Props) {
                 Pool size defaults to $500 GEN at 5% APY. Configurable after creation.
               </p>
             </div>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
-              </DialogClose>
-              <Button onClick={handleCreate} className="gradient-emerald border-0 text-primary-foreground">
+            <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
+              <Button variant="outline" onClick={() => setOpen(false)} disabled={creating}>
+                Cancel
+              </Button>
+              <Button
+                onClick={handleCreate}
+                disabled={creating || !name.trim()}
+                className="gradient-emerald border-0 text-primary-foreground"
+              >
+                {creating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Launch Circle
               </Button>
-            </DialogFooter>
+            </div>
           </DialogContent>
         </Dialog>
       </div>
@@ -78,7 +91,7 @@ export function CirclesPanel({ circles, onCreateCircle }: Props) {
           <Card
             key={circle.id}
             className="glass-card overflow-hidden border-border/50 transition-all hover:shadow-md"
-            style={{ animationDelay: `${i * 100}ms`, animation: "fade-in-up 0.5s ease-out forwards" }}
+            style={{ animationDelay: `${i * 100}ms`, animation: "fade-in-up 0.5s ease-out forwards", opacity: 0 }}
           >
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
