@@ -26,6 +26,7 @@ const App = () => (
       </TooltipProvider>
     </WalletProvider>
   </QueryClientProvider>
+  </ThemeProvider>
 );
 
 export default App;
