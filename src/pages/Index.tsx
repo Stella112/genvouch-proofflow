@@ -1,16 +1,31 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Header } from "@/components/Header";
+import { CirclesPanel } from "@/components/CirclesPanel";
+import { LoanDesk } from "@/components/LoanDesk";
+import { useGenVouch } from "@/hooks/useGenVouch";
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const { circles, loans, createCircle, approveLoan, repayLoan, triggerInsurance } = useGenVouch();
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="min-h-screen bg-surface">
+      <Header />
+      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+        <div className="grid gap-6 lg:grid-cols-[340px_1fr]">
+          <aside>
+            <CirclesPanel circles={circles} onCreateCircle={createCircle} />
+          </aside>
+          <section>
+            <LoanDesk
+              loans={loans}
+              onApprove={approveLoan}
+              onRepay={repayLoan}
+              onTriggerInsurance={triggerInsurance}
+            />
+          </section>
+        </div>
+      </main>
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
