@@ -5,7 +5,7 @@
 
 ---
 
-## 🌍 The Problem
+## The Problem
 Traditional Web3 lending is fundamentally broken for the global unbanked. It strictly requires over-collateralization because standard smart contracts cannot evaluate subjective, real-world creditworthiness or off-chain reputation. Meanwhile, traditional global microfinance relies on localized human trust, which cannot scale on the blockchain. 
 
 ## 💡 The Solution
@@ -15,16 +15,16 @@ Instead of relying on centralized KYC bureaus or human loan officers, GenVouch u
 
 ---
 
-## ✨ Core Features
+## Core Features
 
-* 🧠 **ProofFlow (AI Consensus Engine):** Borrowers submit a loan purpose alongside a standard real-world web URL. GenVouch triggers `gl.eq_principle` to deploy independent AI validators that read the URL context, analyze the risk, and reach a democratic consensus to approve or reject the loan entirely on-chain.
-* 🔄 **Lending Circles (ROSCA):** Users can pool funds together into decentralized Rotating Savings and Credit Associations, governed by smart contracts.
-* 🛡️ **LexGuard Insurance:** A parametric safety layer. If a loan defaults, LexGuard can be triggered to autonomously verify the default and distribute pooled insurance funds.
-* 💳 **Neo-Banking UX:** A frictionless, single-page React application that abstracts away Web3 complexity while providing immutable on-chain verification badges for all AI decisions.
+*  **ProofFlow (AI Consensus Engine):** Borrowers submit a loan purpose alongside a standard real-world web URL. GenVouch triggers `gl.eq_principle` to deploy independent AI validators that read the URL context, analyze the risk, and reach a democratic consensus to approve or reject the loan entirely on-chain.
+* **Lending Circles (ROSCA):** Users can pool funds together into decentralized Rotating Savings and Credit Associations, governed by smart contracts.
+* **LexGuard Insurance:** A parametric safety layer. If a loan defaults, LexGuard can be triggered to autonomously verify the default and distribute pooled insurance funds.
+* **Neo-Banking UX:** A frictionless, single-page React application that abstracts away Web3 complexity while providing immutable on-chain verification badges for all AI decisions.
 
 ---
 
-## 🏗️ Architecture & Tech Stack
+## Architecture & Tech Stack
 
 **Frontend:**
 * React (Vite)
@@ -39,7 +39,7 @@ Instead of relying on centralized KYC bureaus or human loan officers, GenVouch u
 
 ---
 
-## ⚙️ GenLayer Integration Details
+## GenLayer Integration Details
 
 GenVouch was built to natively exploit GenLayer's unique capabilities:
 1. **Subjective Oracles:** We completely bypass Chainlink or traditional oracles. Web scraping and contextual comprehension are done natively by the GenVM.
@@ -58,14 +58,20 @@ git clone [https://github.com/Stella112/genvouch-proofflow.git](https://github.c
 cd genvouch-proofflow
 npm install
 
-npm run dev
+npm run dev`
 
 
-Connect to GenLayer Testnet
+
+---
+
+### 3. Connect to GenLayer Testnet
 When interacting with the local app, clicking "Connect Wallet" will automatically prompt your MetaMask to add the GenLayer RPC. If you need to add it manually, use these parameters:
-Network Name: GenLayer Simulator
-RPC URL: https://studio.genlayer.com/rpc
-Chain ID: 540 (0x21c)
-Currency Symbol: GEN
-🤝 Built For
-Built with ❤️ for the DoraHacks GenLayer Bradbury Hackathon (April 2026).
+* **Network Name:** GenLayer Simulator
+* **RPC URL:** `https://studio.genlayer.com/rpc`
+* **Chain ID:** `540` (0x21c)
+* **Currency Symbol:** `GEN`
+
+---
+
+## 🤝 Built For
+Built with ❤️ for the **DoraHacks GenLayer Bradbury Hackathon**.
